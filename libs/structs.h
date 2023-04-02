@@ -1,9 +1,18 @@
 //Basic Structure of the data of the ticket holders.
-typedef struct
+typedef struct Holder
 {
     char *name;
     int ref_id;
 }
-holder;
+holder; 
+
+//Nodes of our BST
+typedef struct Node{
+    
+    holder ticket;
+    struct Node* left;
+    struct Node* right;
+
+} node;
 
 holder *holders[EVENT_SIZE];

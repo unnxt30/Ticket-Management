@@ -1,6 +1,7 @@
+#include "bst.h"
+
 // Limiting the event to a 100 Tickets only.
 #define EVENT_SIZE 100
-
 
 int ids[EVENT_SIZE];
 
