@@ -14,5 +14,3 @@ typedef struct Node{
     struct Node* right;
 
 } node;
-
-holder *holders[EVENT_SIZE];

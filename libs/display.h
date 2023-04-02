@@ -1,19 +1,11 @@
 #define res 3 
 
-void display_bookings(holder *holders[])
+void display_bookings(node *tickets)
 {   
-    printf("\n");
-    for(int i = 0; i<res ; i++)
+    if(tickets)
     {
-        printf("ID# -> %i, NAME -> %s", holders[i] -> ref_id, holders[i] -> name);
-        printf("\n");
-    }
-}
-
-void display_ids(int ids[])
-{
-    for(int i = 0; i<res; i++)
-    {
-        printf("%i\n", ids[i]);
+        printf("ID# -> %i, Name -> %s\n", tickets->ticket.ref_id, tickets->ticket.name);
+        display_bookings(tickets->left);
+        display_bookings(tickets->right);
     }
 }
