@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include "libs/ids.h"
 #include "libs/structs.h"
+#include "libs/bst.h"
 // #include "bookings.h"
 #include "libs/display.h"
 
@@ -24,13 +25,13 @@ int main(void)
 
     for(int i = 0; i<res ; i++)
     {
-        holder *data = malloc(sizeof(holder));
         char str[20];
         printf("NAME: ");
         fgets(str, 20, stdin);
-        data -> name = str;
-        data -> ref_id = ids[i];
-        holders[i] = data;
+        holder temp;
+        temp.name = str;
+        temp.ref_id = generate_id;
+        insert(temp);
     }
 
     display_bookings(holders);

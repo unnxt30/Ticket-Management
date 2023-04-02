@@ -1,3 +1,5 @@
+#include "bst.h"
+
 // Limiting the event to a 100 Tickets only.
 
 int toNum(char c)
