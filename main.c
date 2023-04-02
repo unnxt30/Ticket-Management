@@ -14,7 +14,8 @@ holder book_ticket(holder *holders[], int ids[] );
 
 
 int main(void)
-{
+{   
+    srand(time(NULL));
     generate_id(ids);
 
 
