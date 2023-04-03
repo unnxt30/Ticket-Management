@@ -9,82 +9,139 @@
 #include "libs/ids.h"
 #include "libs/stacks.h"
 
-// struct x empty = {0};
+int aval(int print);
+int book();
+int check();
 
+//fake booleans
+#define true 1
+#define false 0
+
+//constants
+#define TICKETS 50
+int bookings = 0;
 
 int main(void)
 {   
     srand(time(NULL));
-
-    //Inputing User Info.       
     printf("Thankyou for showing interest in our Event, you've entered the BOOKING PORTAL.....\n");
+
+    //Selection of function       
+    while(1){
+
+        printf("\n-----------------------------------------\n");
+        printf("Select what you want to do:\n");
+        printf("Enter a to check for availibilty of tickets\n");
+        printf("Enter b to book a ticket\n");
+        printf("Enter c to check if your ticket is valid\n");
+        printf("Enter q to quit\n");
+        printf("Input: ");
+
+        char in;
+        scanf("%c", &in);
+
+        printf("\n");
+
+        switch (in)
+        {
+        case 'a':
+            aval(true);
+            break;
+        case 'b':
+            book();
+            break;
+        case 'c':
+            check();
+            break;
+        case 's':
+            display_bookings(tickets);
+            break;
+        case 'q':
+            return 0;
+        default:
+            printf("Invalid option\n");
+            break;
+        }
+
+        printf("Press any key to continue...\n");
+        char temp;
+        scanf("%c", &temp);
+
+    }
+
+}
+
+int aval(int print){
+
+    //print only if needed
+    if(print){
+        printf("%i out of %i tickets are still available\n", TICKETS-bookings, TICKETS);
+    }
     
-    // holder user;
-    // for(int i = 0; i<res ; i++)
-    // {   
-    //     char str[20];
-    //     user.ref_id = generate_id();
-    //     printf("NAME: ");
-    //     fgets(user.name, 20, stdin);
-    //     insert(user);
-    // }
-    holder *users = malloc(sizeof(holder) * res);
+    //check if tickets are left
+    return bookings<TICKETS?true:false;
 
-    for (int i = 0; i < res; i++) 
-    {   
-        /*You're correct, the issue is that the name field of each User struct is being overwritten with each iteration of the loop, so 
-        that all instances end up with the same name as the last one entered. To fix this, you need to allocate a separate buffer 
-        for each name and copy the input into it.*/
+}
 
-        /*In this version, we first allocate a temporary buffer name_buffer to read each name input. We then allocate a separate buffer 
-        for the name field of each User struct using malloc, and copy the input into it using strcpy. This ensures that each User has its
-        own buffer for its name field*/
-        char name_buffer[20];
-        holder user;
-        printf("Name: ");
-        fgets(name_buffer, 50, stdin);
-        name_buffer[strcspn(name_buffer, "\n")] = '\0';  // Remove trailing newline
-        user.name = malloc(strlen(name_buffer)+1);
-        strcpy(user.name, name_buffer);
-        user.ref_id = generate_id();
+//0: booking succesfull
+//1: booking unsuccesfull
+int book(){
 
-        users[i] = user;
-
+    if(!aval(false)){
+        printf("Out of Tickets...\n");
+        return 1;
     }
 
-//     for (int i = 0; i < res; i++) {
-//     printf("User %d: name=%s, id=%d\n", i+1, users[i].name, users[i].ref_id);
-// }
+    //create temp vars
+    char name_buffer[50];
+    holder user;
 
-    for (int i = 0; i<res; i++)
-    {
-        insert(users[i]);
-    }
+    //get name of customer
+    printf("Name: ");
+    scanf("%s", name_buffer);
+    name_buffer[strcspn(name_buffer, "\n")] = '\0';  // Remove trailing newline
+    user.name = malloc(strlen(name_buffer)+1);
+    strcpy(user.name, name_buffer);
 
-    display_bookings(tickets);
+    //get reference id
+    user.ref_id = generate_id();
+    printf("Thank you for your booking. Your ticker reference id is %i\n", user.ref_id);
 
-    printf("Plese Enter the ref_id to verify your ticket: ");
+    //increment no of tickets booked
+    bookings++;
 
-    initialize(stack);
+    insert(user);
+
+    return 0;
+
+}
+
+//0: found 
+//1: checksum invalid 
+//2: not found in tree
+int check(){
+
+    //get users ref_id
+    printf("Enter your ticket reference id: ");
     int id;
+    scanf("%d", &id);
 
-    scanf("%i", &id);
-
-
-    while(search(id))
-    {
-        printf("Your ticket is Valid.\n");
-        push(stack, id);
-
-        scanf("%i", &id);
-        printf("Plese Enter the ref_id to verify your ticket: ");
-
+    //validate checksum
+    if(!checksum(id)){
+        printf("This ticket is Invalid...\n");
+        return 1;
     }
-    
 
-    printf("ERROR! Ticket not found.\n");
-    
-    printf("The Number of Entries are %i\n", length_stack(stack));
+    //if checksum is valid, only then search the tree for the id
+    char* name = search(id);
+    if(name){
+        //ticket found in tree
+        printf("This ticket is booked under the name %s. Enjoy the music festival!\n", name);
+        return 0;
+    }
 
+    //ticket not found in tree    
+    printf("This ticket is Invalid...\n");
+    return 2;
 
 }

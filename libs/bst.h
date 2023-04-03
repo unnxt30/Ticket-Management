@@ -1,6 +1,3 @@
-// #include <stdlib.h>
-// #include "structs.h"
-
 node* tickets = NULL;
 
 int insert(holder x){
@@ -57,7 +54,7 @@ int insert(holder x){
 
 }
 
-int search(int ref_id){
+char* search(int ref_id){
 
     node* current = tickets;
 
@@ -67,7 +64,7 @@ int search(int ref_id){
             if(current->left == NULL){
                 
                 //reached a leaf node without finding ticket
-                return 0;
+                return NULL;
             }
             current = current->left;
 
@@ -76,14 +73,14 @@ int search(int ref_id){
             if(current->right == NULL){
 
                 //reached a leaf node without finding ticket
-                return 0;
+                return NULL;
             
             }
             current = current->right;
             
         }else{
             //found
-            return 1;
+            return current->ticket.name;
         }
     }  
 
