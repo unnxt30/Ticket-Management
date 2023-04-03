@@ -11,7 +11,8 @@
 
 int aval(int print);
 int book();
-int check();
+int check(int id, int print);
+int entries();
 
 //fake booleans
 #define true 1
@@ -27,18 +28,21 @@ int main(void)
     printf("Thankyou for showing interest in our Event, you've entered the BOOKING PORTAL.....\n");
 
     //Selection of function       
-    while(1){
+    while(true){
 
         printf("\n-----------------------------------------\n");
         printf("Select what you want to do:\n");
         printf("Enter a to check for availibilty of tickets\n");
         printf("Enter b to book a ticket\n");
         printf("Enter c to check if your ticket is valid\n");
+        printf("Enter d to display all bookings\n");
+        printf("Press e to manage entries\n");
         printf("Enter q to quit\n");
         printf("Input: ");
 
-        char in;
-        scanf("%c", &in);
+        char s[10];
+        scanf("%s", s);
+        char in = s[0];
 
         printf("\n");
 
@@ -51,21 +55,28 @@ int main(void)
             book();
             break;
         case 'c':
-            check();
+            //get users ref_id
+            printf("Enter your ticket reference id: ");
+            int id;
+            scanf("%d", &id);
+
+            if(check(id, true)){
+                printf("This ticket is Invalid...\n");
+            }
             break;
-        case 's':
+        case 'd':
             display_bookings(tickets);
+            break;
+        case 'e':
+            entries();
             break;
         case 'q':
             return 0;
+            break;
         default:
             printf("Invalid option\n");
             break;
         }
-
-        printf("Press any key to continue...\n");
-        char temp;
-        scanf("%c", &temp);
 
     }
 
@@ -119,29 +130,48 @@ int book(){
 //0: found 
 //1: checksum invalid 
 //2: not found in tree
-int check(){
+int check(int id, int print){
 
-    //get users ref_id
-    printf("Enter your ticket reference id: ");
-    int id;
-    scanf("%d", &id);
+    if(id < 10000 || id > 99999){return 3;}
 
     //validate checksum
-    if(!checksum(id)){
-        printf("This ticket is Invalid...\n");
+    if(!check_sum(id)){
         return 1;
     }
 
     //if checksum is valid, only then search the tree for the id
-    char* name = search(id);
-    if(name){
+    node* temp = search(id);
+    if(temp){
         //ticket found in tree
-        printf("This ticket is booked under the name %s. Enjoy the music festival!\n", name);
+        if(print){printf("This ticket is booked under the name %s. Enjoy the music festival!\n", temp->ticket.name);}
         return 0;
     }
 
-    //ticket not found in tree    
-    printf("This ticket is Invalid...\n");
+    //ticket not found in tree
     return 2;
+
+}
+
+int entries(){
+
+    printf("%i people have entered the festival\n", top+1);
+
+    printf("Enter Ticket ID of the person who's entering: ");
+    int id;
+    scanf("%i", &id);
+    if(check(id, false)){
+        printf("Invalid ID...\n");
+        return 1;
+    }
+    node* temp = search(id);
+
+    if(temp->ticket.entered){
+        printf("Person with the given ID has aleady entered\n");
+        return 2;
+    }
+
+    temp->ticket.entered = true;
+    push(id);
+    return 0;
 
 }

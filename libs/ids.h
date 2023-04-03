@@ -1,7 +1,3 @@
-// #include "bst.h"
-
-// Limiting the event to a 100 Tickets only.
-
 int toNum(char c)
 {
     int i = c -'0' ;
@@ -12,8 +8,6 @@ int toNum(char c)
 int generate_id()
 {
 
-
-    
     int num = rand() % (999 - 100 + 1) + 100; // generate first three digit of ID
     
     char str[3];

@@ -1,5 +1,3 @@
-#define res 3 
-
 void display_bookings(node *tickets)
 {   
     if(tickets)

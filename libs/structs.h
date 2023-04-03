@@ -3,6 +3,7 @@ typedef struct Holder
 {
     char *name;
     int ref_id;
+    int entered;
 }
 holder; 
 

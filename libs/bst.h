@@ -14,6 +14,7 @@ int insert(holder x){
                 current = current->left;
                 current->ticket.name = x.name;
                 current->ticket.ref_id = x.ref_id;
+                current->ticket.entered = 0;
                 current->left = NULL;
                 current->right = NULL;
 
@@ -29,6 +30,7 @@ int insert(holder x){
                 current = current->right;
                 current->ticket.name = x.name;
                 current->ticket.ref_id = x.ref_id;
+                current->ticket.entered = 0;
                 current->left = NULL;
                 current->right = NULL;
 
@@ -45,6 +47,7 @@ int insert(holder x){
     current = malloc(sizeof(node));
     current->ticket.name = x.name;
     current->ticket.ref_id = x.ref_id;
+    current->ticket.entered = 0;
     current->left = NULL;
     current->right = NULL;
 
@@ -54,7 +57,7 @@ int insert(holder x){
 
 }
 
-char* search(int ref_id){
+node* search(int ref_id){
 
     node* current = tickets;
 
@@ -80,39 +83,8 @@ char* search(int ref_id){
             
         }else{
             //found
-            return current->ticket.name;
+            return current;
         }
     }  
 
 }
-
-// holder initialize()
-// {
-//     node* current = tickets;
-
-//     while(current!=NULL){
-//         if(ref_id < current->ticket.ref_id){
-
-//             if(current->left == NULL){
-                
-//                 //reached a leaf node without finding ticket
-//                 return;
-//             }
-//             current = current->left;
-
-//         }else if(ref_id > current->ticket.ref_id){
-
-//             if(current->right == NULL){
-
-//                 //reached a leaf node without finding ticket
-//                 return;
-            
-//             }
-//             current = current->right;
-            
-//         }else{
-//             //found
-//             return current -> ticket;
-//         }
-//     }    
-// }

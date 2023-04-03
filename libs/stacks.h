@@ -1,35 +1,22 @@
-int stack[100];
+#define TICKETS 50
+
+int stack[TICKETS] = {0};
 int top = -1;
-void push(int num[], int id)
+
+void push(int id)
 {
-	num[++top] = id;
+	stack[++top] = id;
 }
 
-void initialize(int stack[])
-{
-    for (int i = 0; i<100; i++)
-    {
-        stack[i] = 0;
-    }
-}
-char pop()
+int pop()
 {	
 	if (top == -1)
 	{
-		return -1;
+		return 1;
 	}
 	else
 	{
-	 	return stack[top--];
+	 	top--;
+        return 0;
 	}
-}
-
-int length_stack(int stack[])
-{
-    int i=0;
-    while(stack[i]!=0)
-    {
-        i++;
-    }
-    return i;
 }
