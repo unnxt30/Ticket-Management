@@ -12,7 +12,7 @@ int toNum(char c)
 int generate_id()
 {
 
-    // srand(time(NULL)); // seed the random number generator with the current time
+
     
     int num = rand() % (999 - 100 + 1) + 100; // generate first three digit of ID
     
@@ -31,3 +31,24 @@ int generate_id()
     return num;
 
 }
+
+int check_sum(int id)
+{
+    char str[5];
+    int twoSum = 0;
+
+    sprintf(str, "%i", id); //convert id into string
+
+    for(int i = 0; i<3; i++)
+    {
+        twoSum += toNum(str[i]);
+    }
+
+    if(twoSum == id%100);
+    {
+        return 1;
+    }
+    
+    return 0;
+}
+
